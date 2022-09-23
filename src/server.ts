@@ -14,6 +14,8 @@ const assaigment_controller = require("./controllers/assaigment_controller")
 const submission_controller = require("./controllers/submission_controller")
 const class_controller = require("./controllers/class_controller")
 const enrollment_controller = require("./controllers/enrollemt_controller")
+const notice_controller = require("./controllers/notice_controller")
+
 mongoose.connect(db_url)
     .then(() => {
         Logging.info("MONGO DBD CONNECTED")
@@ -55,6 +57,8 @@ const StartServer = () => {
     router.use("/submission-controller",submission_controller)
     router.use("/class-controller",class_controller)
     router.use("/enrollment-controller",enrollment_controller)
+    router.use("/notice-controller",notice_controller)
+
     /** Healthcheck */
     router.get('/ping', (req, res, next) => res.status(200).json({ hello: 'world' }));
 
