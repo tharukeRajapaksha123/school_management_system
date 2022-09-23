@@ -4,16 +4,23 @@ import mongoose from "mongoose"
 import Logging from "./libraries/logging"
 
 
-const db_url = ""
+const db_url = "mongodb://localhost:27017/student_management_system"
 const port = 8080
 const router = express();
 
+//controllers
+const assaigment_controller = require("./controllers/assaigment_controller")
+const submission_controller = require("./controllers/submission_controller")
+
 
 mongoose.connect(db_url)
-    .then(() => { })    
+    .then(() => {
+        Logging.info("MONGO DBD CONNECTED")
+        StartServer()
+    })
     .catch(err => Logging.error(err))
 
-const StartServer = ()=>{
+const StartServer = () => {
     router.use((req, res, next) => {
         /** Log the req */
         Logging.info(`Incomming - METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`);
@@ -43,8 +50,8 @@ const StartServer = ()=>{
     });
 
     /** Routes */
-    
-
+    router.use("/assaigment-controller", assaigment_controller)
+    router.use("/submission-controller",submission_controller)
     /** Healthcheck */
     router.get('/ping', (req, res, next) => res.status(200).json({ hello: 'world' }));
 
