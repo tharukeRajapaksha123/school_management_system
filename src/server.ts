@@ -1,5 +1,6 @@
 import express from "express"
 import http from "http"
+import { isError } from "joi"
 import mongoose from "mongoose"
 import Logging from "./libraries/logging"
 
@@ -11,8 +12,8 @@ const router = express();
 //controllers
 const assaigment_controller = require("./controllers/assaigment_controller")
 const submission_controller = require("./controllers/submission_controller")
-
-
+const class_controller = require("./controllers/class_controller")
+const enrollment_controller = require("./controllers/enrollemt_controller")
 mongoose.connect(db_url)
     .then(() => {
         Logging.info("MONGO DBD CONNECTED")
@@ -52,6 +53,8 @@ const StartServer = () => {
     /** Routes */
     router.use("/assaigment-controller", assaigment_controller)
     router.use("/submission-controller",submission_controller)
+    router.use("/class-controller",class_controller)
+    router.use("/enrollment-controller",enrollment_controller)
     /** Healthcheck */
     router.get('/ping', (req, res, next) => res.status(200).json({ hello: 'world' }));
 
